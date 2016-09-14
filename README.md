@@ -1,7 +1,6 @@
 The application consists of two parts: **back-end** Spring Boot multimodule application and **web-scraper** (not yet implemented).
 
-![General diagram](https://github.com/tomas-staruch/rainfalls-by-location/blob/master/general_diagram.png)
-
+<img src="https://github.com/tomas-staruch/rainfalls-by-location/blob/master/general_diagram.png" width="400" height="263">
 
 Spring Boot multimodule application has the following structure:
 ```
