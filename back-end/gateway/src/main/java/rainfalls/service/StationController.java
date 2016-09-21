@@ -3,6 +3,7 @@ package rainfalls.service;
 import java.util.List;
 
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -13,8 +14,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
+import org.springframework.validation.annotation.Validated;
 
 import rainfalls.domain.Station;
+import rainfalls.exception.StationAlreadyExists;
 import rainfalls.exception.StationNotFoundException;
 import rainfalls.repository.StationRepository;
 
@@ -52,5 +55,19 @@ public class StationController {
     		throw new StationNotFoundException(id);
     	
     	return Response.status(200).entity(station).build();
+    }
+    
+    // TODO
+    // uthenticate insert through HMAC
+    @POST
+    public Response insert(@Validated Station station) {
+    	log.info("Requested to insert station ");
+    	
+    	Station existingStation = stationRepository.findByName(station.getName());
+    	if(existingStation != null) {
+    		throw new StationAlreadyExists(existingStation.getId());
+    	}
+    	
+    	return Response.status(201).entity(station).build();
     }
 }
