@@ -48,4 +48,5 @@ curl -i http://localhost:8080/rainfalls/stations/1/measurements
 Scheduler regularly requests **Gateway** and sends requests to **Web-scraper**.
 
 ### Web-scraper's responses processor module
-The service process the responses from **Web-scraper** and POST them to **Gateway**.
+The service processes the responses from **Web-scraper** and POST them to **Gateway**.
+Every POST request contain HMAC authentication signature to ensure that it is comming from **Web-scraper**. 
