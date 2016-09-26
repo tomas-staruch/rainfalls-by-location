@@ -5,6 +5,7 @@ import javax.ws.rs.ApplicationPath;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.springframework.context.annotation.Configuration;
 
+import rainfalls.security.HmacAuthFilter;
 import rainfalls.service.MeasurementController;
 import rainfalls.service.StationController;
 
@@ -15,5 +16,6 @@ public class JerseyConfig extends ResourceConfig {
     public JerseyConfig() {
     	register(StationController.class);
     	register(MeasurementController.class);
+    	register(HmacAuthFilter.class);
     }
 }

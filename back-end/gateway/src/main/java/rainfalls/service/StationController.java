@@ -20,6 +20,7 @@ import rainfalls.domain.Station;
 import rainfalls.exception.StationAlreadyExists;
 import rainfalls.exception.StationNotFoundException;
 import rainfalls.repository.StationRepository;
+import rainfalls.security.HmacAuth;
 
 /**
  * REST controller to handle the requests for station
@@ -57,16 +58,16 @@ public class StationController {
     	return Response.status(200).entity(station).build();
     }
     
-    // TODO
-    // uthenticate insert through HMAC
     @POST
+    @HmacAuth  
     public Response insert(@Validated Station station) {
-    	log.info("Requested to insert station ");
+    	log.info(String.format("Requested to insert station: %s", station.toString()));
     	
     	Station existingStation = stationRepository.findByName(station.getName());
-    	if(existingStation != null) {
+    	if(existingStation != null) 
     		throw new StationAlreadyExists(existingStation.getId());
-    	}
+    	
+    	station = stationRepository.saveAndFlush(station);
     	
     	return Response.status(201).entity(station).build();
     }

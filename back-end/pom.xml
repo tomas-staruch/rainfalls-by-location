@@ -23,6 +23,7 @@
     
   <modules>
 	<module>application</module>
+	<module>common</module>
 	<module>gateway</module>
 	<module>task-scheduler-request-service</module>
 	<module>web-scraper-response-service</module>
