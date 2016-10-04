@@ -1,6 +1,7 @@
 Java application which gather (through web-scraper) precipitation measurements from meteorological stations, store them in DB and publish them through REST API.
+
 The application consists of two parts: **back-end** Spring Boot multimodule application and **web-scraper** (not yet implemented).
-The architecture of modules is one step away from microservices architecture. Modules doesn't depend on each other (however share common module) and communicate through REST API. 
+The architecture of modules is one step away from microservices architecture. Modules don't depend on each other (however share common module) and communicate through REST API. 
 
 <img src="https://github.com/tomas-staruch/rainfalls-by-location/blob/master/general_diagram.png" width="400" height="263">
 
