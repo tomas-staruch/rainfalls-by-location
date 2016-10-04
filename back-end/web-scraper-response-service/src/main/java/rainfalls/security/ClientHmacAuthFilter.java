@@ -12,7 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import rainfalls.domain.Station;
+import rainfalls.dto.StationDto;
 
 /**
  * Client side authorization filter which adds Authorization with signature into header 
@@ -37,7 +37,7 @@ public class ClientHmacAuthFilter extends HmacAuthorization implements ClientReq
         ClientRequest request = (ClientRequest)requestContext; 
         
 		try {
-	        requestContext.getHeaders().add(AUTHORIZATION_PROPERTY, buildSignature((Station) request.getEntity()));
+	        requestContext.getHeaders().add(AUTHORIZATION_PROPERTY, buildSignature((StationDto) request.getEntity()));
 		} catch (Exception e) {
 			log.error("Unable to create an authorization signature due to exception", e);
 			

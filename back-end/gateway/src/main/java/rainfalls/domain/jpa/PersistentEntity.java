@@ -1,4 +1,4 @@
-package rainfalls.domain;
+package rainfalls.domain.jpa;
 
 import java.util.Date;
 
@@ -14,7 +14,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @MappedSuperclass
-abstract class PersistentEntity {
+public abstract class PersistentEntity {
 	@Id
 	@GeneratedValue(strategy=GenerationType.TABLE, generator="primary_table_generator")
 	@TableGenerator(name="primary_table_generator", table="sequences")

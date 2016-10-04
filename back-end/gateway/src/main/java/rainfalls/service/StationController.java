@@ -12,18 +12,16 @@ import javax.ws.rs.core.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.annotation.Validated;
 
-import rainfalls.domain.Station;
+import rainfalls.dto.StationDto;
 import rainfalls.exception.StationAlreadyExists;
 import rainfalls.exception.StationNotFoundException;
-import rainfalls.repository.StationRepository;
 import rainfalls.security.HmacAuth;
 
 /**
- * REST controller to handle the requests for station
+ * REST controller to handle the requests for Station
  */
 @Component
 @Path("/stations")
@@ -31,18 +29,18 @@ import rainfalls.security.HmacAuth;
 public class StationController {
 	private static final Logger log = LoggerFactory.getLogger(StationController.class);
 
-	private final StationRepository stationRepository;
+	private final StationService stationService;
 
 	@Autowired
-	public StationController(StationRepository stationRepository) {		
-		this.stationRepository = stationRepository;
+	public StationController(StationService stationService) {		
+		this.stationService = stationService;
 	}
 
     @GET
-    public List<Station> read() {
+    public List<StationDto> read() {
     	log.info("Requested to get all stations...");
     	
-    	return stationRepository.findAll(new Sort(Sort.Direction.ASC, "name"));
+    	return stationService.findAll();
     }
     
     @GET
@@ -50,7 +48,7 @@ public class StationController {
     public Response readOne(@PathParam("id") Long id) {
     	log.info(String.format("Requested to get station id:%d", id));
     	
-    	Station station = stationRepository.findOne(id);
+    	StationDto station = stationService.findOne(id);
     	
     	if(station == null)
     		throw new StationNotFoundException(id);
@@ -60,14 +58,14 @@ public class StationController {
     
     @POST
     @HmacAuth  
-    public Response insert(@Validated Station station) {
+    public Response insert(@Validated StationDto station) {
     	log.info(String.format("Requested to insert station: %s", station.toString()));
     	
-    	Station existingStation = stationRepository.findByName(station.getName());
+    	StationDto existingStation = stationService.findByName(station.getName());
     	if(existingStation != null) 
     		throw new StationAlreadyExists(existingStation.getId());
     	
-    	station = stationRepository.saveAndFlush(station);
+    	station = stationService.save(station);
     	
     	return Response.status(201).entity(station).build();
     }

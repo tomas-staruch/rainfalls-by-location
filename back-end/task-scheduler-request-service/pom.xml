@@ -17,6 +17,13 @@
   <description>Scheduler module which regularly requests Gateway and sends requests to web-scraper.</description>
 
   <dependencies>
+   	<!-- dependency to common module -->
+  	<dependency>
+	    <groupId>rainfalls</groupId>
+	    <artifactId>common</artifactId>
+	    <version>1.0-SNAPSHOT</version>
+	</dependency> 
+	<!-- dependency to all other required modules --> 
     <dependency>
         <groupId>org.springframework</groupId>
         <artifactId>spring-web</artifactId>

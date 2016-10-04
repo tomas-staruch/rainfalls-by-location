@@ -6,7 +6,7 @@ import org.glassfish.jersey.server.ResourceConfig;
 import org.springframework.context.annotation.Configuration;
 
 import rainfalls.security.HmacAuthFilter;
-import rainfalls.service.MeasurementController;
+import rainfalls.service.PrecipitationController;
 import rainfalls.service.StationController;
 
 @Configuration
@@ -15,7 +15,7 @@ public class JerseyConfig extends ResourceConfig {
 	
     public JerseyConfig() {
     	register(StationController.class);
-    	register(MeasurementController.class);
+    	register(PrecipitationController.class);
     	register(HmacAuthFilter.class);
     }
 }

@@ -13,21 +13,20 @@ import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import rainfalls.domain.jpa.PersistentEntity;
 
+/**
+ * Class represents weather monitoring station which measures atmospheric conditions (e.g. precipitation amounts).
+ */
 @Entity
 @Table(name="stations")
 public class Station extends PersistentEntity implements Serializable {
 
 	private static final long serialVersionUID = 5201842891562366416L;
-	
-	@NotNull(message = "error.name.notnull")
-	@Size(min = 1, max = 255, message = "error.name.size")
+
 	@Column(unique=true, nullable=false)
 	private String name;
 	
@@ -35,9 +34,8 @@ public class Station extends PersistentEntity implements Serializable {
 	private Position position;
 	
 	@OneToMany(mappedBy="station", cascade=CascadeType.ALL, fetch=FetchType.EAGER)
-	@OrderBy("dateTime ASC")
-	@JsonIgnore
-	private Set<Measurement> measurements = new LinkedHashSet<>();
+	@OrderBy("measuredDate ASC")
+	private Set<Precipitation> precipitations = new LinkedHashSet<>();
 	
 	private String type;
 	
@@ -61,20 +59,20 @@ public class Station extends PersistentEntity implements Serializable {
 		return type;
 	}
 	
-	public Set<Measurement> getMeasurements() {
-		return measurements;
+	public Set<Precipitation> getPrecipitations() {
+		return precipitations;
 	}
 	
-	public void setMeasurements(Set<Measurement> measurements) {
-		this.measurements = measurements;
+	public void setPrecipitations(Set<Precipitation> precipitations) {
+		this.precipitations = precipitations;
 	}
 	
-	public void addMeasurement(Measurement measurement) {
-		if(measurement.getStation() == null) {
-			measurement.setStation(this);
+	public void addPrecipitation(Precipitation precipitations) {
+		if(precipitations.getStation() == null) {
+			precipitations.setStation(this);
 		}
 	
-		this.measurements.add(measurement);
+		this.precipitations.add(precipitations);
 	}
 	
     @Override

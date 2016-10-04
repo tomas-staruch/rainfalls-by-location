@@ -7,6 +7,9 @@ import javax.persistence.Embeddable;
 
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 
+/**
+ * Class represents the coordinates at geographic coordinate system.
+ */
 
 @Embeddable 
 public class Position implements Serializable {

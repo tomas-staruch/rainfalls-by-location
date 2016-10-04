@@ -6,50 +6,49 @@ import java.time.ZonedDateTime;
 import java.util.Objects;
 
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonFormat;
+import rainfalls.domain.jpa.PersistentEntity;
+import rainfalls.domain.jpa.ZonedDateTimeConverter;
 
+/**
+ * Class represents one particular measurement of precipitation in time.
+ */
 @Entity
-@Table(name="measurements")
-public class Measurement extends PersistentEntity implements Serializable {
+@Table(name="precipitations")
+public class Precipitation extends PersistentEntity implements Serializable {
 
 	private static final long serialVersionUID = -2007563386698676462L;
-
-	@NotNull(message = "error.dateTime.notnull")
-	@Column(unique=true, nullable=false)
-    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm a z")
-	private ZonedDateTime dateTime;
 	
-	@NotNull(message = "error.rainFall.notnull")
+	@Column(unique=true, nullable=false)
+	@Convert(converter = ZonedDateTimeConverter.class)
+	private ZonedDateTime measuredDate;
+
 	@Column(nullable=false)
-	private BigDecimal rainFall;
+	private BigDecimal amount;
 	
 	@ManyToOne(fetch=FetchType.LAZY, optional=false)
-	@JsonBackReference
 	private Station station;
 	
-	Measurement() { }
+	Precipitation() { }
 
-	public Measurement(ZonedDateTime dateTime, BigDecimal rainFall) {
-		super();
-		this.dateTime = dateTime;
-		this.rainFall = rainFall;
+	public Precipitation(ZonedDateTime measuredDate, BigDecimal amount) {
+		this.measuredDate = measuredDate;
+		this.amount = amount;
 	}
 	
-	public ZonedDateTime getDateTime() {
-		return dateTime;
+	public ZonedDateTime getMeasuredDate() {
+		return measuredDate;
 	}
 
-	public BigDecimal getRainFall() {
-		return rainFall;
+	public BigDecimal getAmount() {
+		return amount;
 	}
 	
 	public Station getStation() {
@@ -62,7 +61,7 @@ public class Measurement extends PersistentEntity implements Serializable {
 	
     @Override
     public int hashCode(){
-        return Objects.hash(dateTime, rainFall);
+        return Objects.hash(measuredDate, amount);
     }
     
 	@Override
@@ -72,10 +71,10 @@ public class Measurement extends PersistentEntity implements Serializable {
 		if (obj == null || getClass() != obj.getClass())
 			return false;
 		
-		Measurement other = (Measurement) obj;
+		Precipitation other = (Precipitation) obj;
 		
-		return Objects.equals(dateTime, other.dateTime) &&
-			   Objects.equals(rainFall, other.rainFall);
+		return Objects.equals(measuredDate, other.measuredDate) &&
+			   Objects.equals(amount, other.amount);
 	}
     
 	@Override

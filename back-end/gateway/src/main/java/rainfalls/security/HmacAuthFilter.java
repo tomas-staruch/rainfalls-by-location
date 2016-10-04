@@ -13,7 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import rainfalls.domain.Station;
+import rainfalls.dto.StationDto;
 
 /**
  * Back-end side authorization filter which compares Authorization signature from header with one created by itself
@@ -45,7 +45,7 @@ public class HmacAuthFilter extends HmacAuthorization implements ContainerReques
 		try {	
 			String signatureHash = authorization.get(0);
 			
-		    if(!signatureHash.equals(buildSignature(request.readEntity(Station.class))))
+		    if(!signatureHash.equals(buildSignature(request.readEntity(StationDto.class))))
 		    	requestContext.abortWith(NOT_AUTHORIZED);
 		} catch (Exception e) {
 			log.error("Unable to compare signatures due to exception", e);

@@ -20,8 +20,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import rainfalls.domain.Position;
-import rainfalls.domain.Station;
+import rainfalls.dto.PositionDto;
+import rainfalls.dto.StationDto;
 import rainfalls.security.ClientHmacAuthFilter;
 
 /**
@@ -43,12 +43,12 @@ public class WebscraperResponseService {
         WebTarget webTarget = client.target(stationsUri);
         
         // TODO get a station from JMS queue 
-        Station station = null;
+        StationDto station = new StationDto(null, "", new PositionDto(49.29682,18.78494), "AHS6200");
         
         Response response = webTarget.request(MediaType.APPLICATION_JSON_TYPE).post(Entity.entity(station, MediaType.APPLICATION_JSON_TYPE));
 
         if(response.getStatusInfo().equals(Response.Status.CREATED)) {
-        	Station confirmedStation = response.readEntity(Station.class);
+        	StationDto confirmedStation = response.readEntity(StationDto.class);
             log.info("Sucessfully posted station into Gateway with id: {}", confirmedStation.getId());      	
         } else {
         	log.error("Got status {} when posted station into Gateway", response.getStatus());

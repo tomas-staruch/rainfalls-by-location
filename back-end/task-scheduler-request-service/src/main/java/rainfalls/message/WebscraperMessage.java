@@ -3,25 +3,23 @@ package rainfalls.message;
 import java.io.Serializable;
 import java.util.Date;
 
-import rainfalls.domain.Station;
-
 /**
- * Wrapper for {@link Station} object with additional info which is passed into a queue
+ * Wrapper for an object with additional info which is passed into a queue
  */
-public class WebscraperMessage implements Serializable {
+public class WebscraperMessage<T> implements Serializable {
 	
 	private static final long serialVersionUID = 8431440850693305810L;
 
-	private final Station station;
+	private final T obj;
 	private final Date created;
 
-	public WebscraperMessage(Station station, Date dateTime) {
-		this.station = station;
+	public WebscraperMessage(T obj, Date dateTime) {
+		this.obj = obj;
 		this.created = dateTime;
 	}
 	
-	public Station getStation() {
-		return station;
+	public T getObj() {
+		return obj;
 	}
 
 	public Date getCreated() {
